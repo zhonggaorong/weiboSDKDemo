@@ -7,8 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "WeiboSDK.h"
+//申请下来的appkey
+#define APP_KEY @"APP KEY"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<WeiboSDKDelegate>
 
 @end
 
@@ -17,13 +20,65 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [WeiboSDK registerApp:APP_KEY];
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+
+// 9.0 后才生效
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
+
+    return [WeiboSDK handleOpenURL:url delegate:self];
 }
+
+
+#pragma mark 9.0之前
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    return [WeiboSDK handleOpenURL:url delegate:self];
+}
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation{
+    return [WeiboSDK handleOpenURL:url delegate:self];
+}
+
+
+/**
+ 收到一个来自微博客户端程序的请求
+ 
+ 收到微博的请求后，第三方应用应该按照请求类型进行处理，处理完后必须通过 [WeiboSDK sendResponse:] 将结果回传给微博
+ @param request 具体的请求对象
+ */
+- (void)didReceiveWeiboRequest:(WBBaseRequest *)request{ //向微博发送请求
+    
+    NSLog(@" %@",request.class);
+}
+
+/**
+ 
+ 微博分享  与 微博登录，成功与否都会走这个方法。 用户根据自己的业务进行处理。
+ 收到一个来自微博客户端程序的响应
+ 
+ 收到微博的响应后，第三方应用可以通过响应类型、响应的数据和 WBBaseResponse.userInfo 中的数据完成自己的功能
+ @param response 具体的响应对象
+ */
+- (void)didReceiveWeiboResponse:(WBBaseResponse *)response{
+    if ([response isKindOfClass:WBAuthorizeResponse.class])  //微博登录的回调
+    {
+        if ([_weiboDelegate respondsToSelector:@selector(weiboLoginByResponse:)]) {
+            [_weiboDelegate weiboLoginByResponse:response];
+        }
+    }
+    
+    if ([response isKindOfClass:WBSendMessageToWeiboResponse.class]) {  //微博分享的回调
+        
+        WBSendMessageToWeiboResponse *res = (WBSendMessageToWeiboResponse *)response;
+        if ([_weiboDelegate respondsToSelector:@selector(weiboShareSuccessCode:)]) {
+            [_weiboDelegate weiboShareSuccessCode:res.statusCode];
+        }
+    }
+}
+
+
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.

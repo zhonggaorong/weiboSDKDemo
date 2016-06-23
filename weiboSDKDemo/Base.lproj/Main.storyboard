@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,58 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M97-MQ-9MC">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="微博登录"/>
+                                <connections>
+                                    <action selector="weiboLoginAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Dea-zZ-VcS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dCj-es-NoC">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="微博分享"/>
+                                <connections>
+                                    <action selector="weiboShareAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="L7J-8j-8Ff"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dCj-es-NoC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="59o-em-hbn"/>
+                            <constraint firstItem="dCj-es-NoC" firstAttribute="top" secondItem="M97-MQ-9MC" secondAttribute="bottom" constant="17" id="RbS-kZ-61q"/>
+                            <constraint firstItem="M97-MQ-9MC" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ctu-kd-aHw"/>
+                            <constraint firstItem="M97-MQ-9MC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nxh-gU-L4K"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="M97-MQ-9MC"/>
+                                <exclude reference="dCj-es-NoC"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="ctu-kd-aHw"/>
+                                <exclude reference="nxh-gU-L4K"/>
+                                <exclude reference="59o-em-hbn"/>
+                                <exclude reference="RbS-kZ-61q"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="M97-MQ-9MC"/>
+                                <include reference="dCj-es-NoC"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="ctu-kd-aHw"/>
+                                <include reference="nxh-gU-L4K"/>
+                                <include reference="59o-em-hbn"/>
+                                <include reference="RbS-kZ-61q"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="291" y="429"/>
         </scene>
     </scenes>
 </document>
